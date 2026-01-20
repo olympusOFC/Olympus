@@ -93,7 +93,7 @@ local function VerifyKey(key)
         KeySystem:Destroy()
 
         -- 🔥 SCRIPT FINAL AQUI
-        loadstring(game:HttpGet("URL_DO_SEU_SCRIPT_FINAL"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/olympusOFC/Olympus/refs/heads/main/Meuvip"))()
 
     else
         Notify("Erro", "Key inválida ❌")
