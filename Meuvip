@@ -1,0 +1,113 @@
+repeat task.wait() until game:IsLoaded()
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local CoreGui = game:GetService("CoreGui")
+local Player = Players.LocalPlayer
+
+-- 🔑 KEY VIP PERMANENTE
+local VIP_KEY = "L4BIB-VIP-PERMANENTE"
+
+-- === UI ===
+local KeySystem = Instance.new("ScreenGui")
+KeySystem.Name = "L4BIB HUB KEY SYSTEM"
+KeySystem.ResetOnSpawn = false
+KeySystem.Parent = CoreGui
+
+local Main = Instance.new("CanvasGroup", KeySystem)
+Main.AnchorPoint = Vector2.new(0.5, 0.5)
+Main.Position = UDim2.fromScale(0.5, 0.5)
+Main.Size = UDim2.new(0.3327, 0, 0.3677, 0)
+Main.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+Main.BorderSizePixel = 0
+
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0.05, 0)
+local Stroke = Instance.new("UIStroke", Main)
+Stroke.Color = Color3.fromRGB(170, 0, 255)
+Stroke.Thickness = 4
+
+-- TITLE
+local Title = Instance.new("TextLabel", Main)
+Title.Text = "L4BIB HUB"
+Title.Font = Enum.Font.FredokaOne
+Title.TextScaled = true
+Title.TextColor3 = Color3.fromRGB(170, 0, 255)
+Title.BackgroundTransparency = 1
+Title.Size = UDim2.new(1, 0, 0.13, 0)
+
+-- KEY BOX
+local KeyBox = Instance.new("TextBox", Main)
+KeyBox.PlaceholderText = "Key Here"
+KeyBox.Text = ""
+KeyBox.TextScaled = true
+KeyBox.Size = UDim2.new(0.8, 0, 0.13, 0)
+KeyBox.Position = UDim2.fromScale(0.5, 0.4)
+KeyBox.AnchorPoint = Vector2.new(0.5, 0.5)
+KeyBox.BackgroundColor3 = Color3.fromRGB(62, 62, 62)
+KeyBox.TextColor3 = Color3.new(1, 1, 1)
+Instance.new("UICorner", KeyBox).CornerRadius = UDim.new(0.2, 0)
+
+-- SUBMIT
+local Submit = Instance.new("TextButton", Main)
+Submit.Text = "Submit"
+Submit.Font = Enum.Font.SourceSansBold
+Submit.TextScaled = true
+Submit.Size = UDim2.new(0.8, 0, 0.13, 0)
+Submit.Position = UDim2.fromScale(0.5, 0.56)
+Submit.AnchorPoint = Vector2.new(0.5, 0.5)
+Submit.BackgroundColor3 = Color3.fromRGB(170, 0, 255)
+Submit.TextColor3 = Color3.new(1, 1, 1)
+Instance.new("UICorner", Submit).CornerRadius = UDim.new(0.2, 0)
+
+-- 🔔 NOTIFY
+local function Notify(title, text, duration)
+    duration = duration or 3
+    local notif = Instance.new("TextLabel", Main)
+    notif.Text = title .. " - " .. text
+    notif.Size = UDim2.new(1, -20, 0, 40)
+    notif.Position = UDim2.new(0, 10, 1, -50)
+    notif.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    notif.TextColor3 = Color3.new(1,1,1)
+    notif.TextScaled = true
+    Instance.new("UICorner", notif)
+
+    task.delay(duration, function()
+        notif:Destroy()
+    end)
+end
+
+-- ✅ NOVO SISTEMA DE KEY (VIP)
+local function VerifyKey(key)
+    if key == VIP_KEY then
+        Notify("Success", "VIP Key válida!")
+
+        local tween = TweenService:Create(
+            Main,
+            TweenInfo.new(0.5),
+            {Size = UDim2.new(0,0,0,0), Position = UDim2.fromScale(0.5,-0.5)}
+        )
+        tween:Play()
+        tween.Completed:Wait()
+
+        KeySystem:Destroy()
+
+        -- 🔥 SCRIPT FINAL AQUI
+        loadstring(game:HttpGet("URL_DO_SEU_SCRIPT_FINAL"))()
+
+    else
+        Notify("Erro", "Key inválida ❌")
+    end
+end
+
+-- EVENTS
+Submit.MouseButton1Click:Connect(function()
+    VerifyKey(KeyBox.Text)
+end)
+
+KeyBox.FocusLost:Connect(function(enter)
+    if enter then
+        VerifyKey(KeyBox.Text)
+    end
+end)
+
